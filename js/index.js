@@ -8,7 +8,6 @@
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var data = JSON.parse(xmlhttp.responseText);
-            console.log(data);
             transactions(data);
         }
     };
@@ -22,7 +21,7 @@
         var tbody = document.getElementById('body');
         var thead = document.getElementById('head');
 
-        for(var i = 0 ; i < data.transactions.length; i++){debugger;
+        for(var i = 0 ; i < data.transactions.length; i++){
             var TransactionMonth = new Date(data.transactions[i].date).getMonth();
             var TransactionYear = new Date(data.transactions[i].date).getFullYear();
             sortdata[i] = {
@@ -72,7 +71,6 @@
         /*tbody
          ---------------------------------------------*/
         for (var i = 0; i < sortdata.length; i++) {
-
             tr = document.createElement('tr');
             for (key in sortdata[i]) {
                 if (key == 'name' || key == 'amount' || key == 'date' || key == 'category' || key == 'category') {
@@ -82,7 +80,6 @@
                     tr.appendChild(td);
                 }
             }
-
             td = document.createElement('td');
             tdText = document.createTextNode(avgSalary[i]);
             td.appendChild(tdText);
@@ -96,19 +93,24 @@
     /*Filter as per search
      -------------------------------------------*/
 
-    var filter=function(){
+    var filter = function(){
         var data = sortdata;
         var tbody = document.getElementById('body');
-        var value = document.getElementById('filtertable').value.toLowerCase();
+        var value = document.getElementById('filtertable').value.toLocaleLowerCase();
         for(i=0;i<data.length;i++){
-            if(!data[i].name.toLowerCase().match(value)){
+            if(!(data[i].amount.toString().match(value))  && !(data[i].name.toLowerCase().match(value)) ){
                 document.getElementById('body').getElementsByTagName('tr')[i].style.display="none";
+
             }else if(data[i] == ''){
                 document.getElementById('body').getElementsByTagName('tr')[i].style.display="table-row";
+
             }else{
                 document.getElementById('body').getElementsByTagName('tr')[i].style.display="table-row";
+
             }
+
         }
+
     }
     document.getElementById('filtertable').addEventListener('keyup',filter);
 
